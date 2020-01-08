@@ -2,13 +2,18 @@ import Item from "./Models/Item.js";
 
 let _state = {
   /**@type {Item[]} */
-  items: [new Item({ name: "Darryls Hat", price: 17, description: "A Nice Hat", stock: 10 }), new Item({ name: "Supreme Sticker", price: 5, description: "Supreme", stock: 100 })]
+  items: [new Item({ name: "Darryls Hat", price: 17, description: "A Nice Hat", stock: 10 }), new Item({ name: "Supreme Sticker", price: 5, description: "Supreme", stock: 100 })],
+  wallet: 200,
+  cart: []
 };
 
 /** Collection of listeners to be called based on keyed state changes
  * @type {{[x:string]: function[]}}
  */
 let _listeners = {
+  wallet: [],
+  cart: [],
+  items: []
 };
 
 //NOTE You should not need to change the code from this point down
