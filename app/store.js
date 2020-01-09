@@ -2,8 +2,9 @@ import Item from "./Models/Item.js";
 
 let _state = {
   /**@type {Item[]} */
-  items: [new Item({ name: "Darryls Hat", price: 17, description: "A Nice Hat", stock: 10 }), new Item({ name: "Supreme Sticker", price: 5, description: "Supreme", stock: 100 })],
+  items: [new Item({ name: "Daroll Desk Buddy", price: 28, description: "A Nice Hat", stock: 10, img: "https://i.etsystatic.com/21199733/r/il/7ec9eb/2100784494/il_1588xN.2100784494_8m4z.jpg" }), new Item({ name: "Supreme Sticker", price: 5, description: "Supreme Bogo sticker signed by Tim", stock: 100, img: "https://cdn.shopify.com/s/files/1/0866/4890/products/supreme-sticker_1024x1024.jpg?v=1555296012" }), new Item({ name: "Codeworks Sherpa Blanket", price: 75, description: "Very nice and warm blanky", stock: 15, img: "https://i.etsystatic.com/21199733/r/il/97d3b9/2113442965/il_1588xN.2113442965_5zqq.jpg" })],
   wallet: 200,
+  /**@type {Item[]} */
   cart: []
 };
 
