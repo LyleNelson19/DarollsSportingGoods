@@ -4,7 +4,7 @@ import _shopService from "../Services/ShopService.js"
 // const swal = require('sweetalert2')
 function _drawShop() {
   let template = ""
-  document.querySelector('#myWallet').innerHTML = "Balance Available: $" + _store.State.wallet.toString()
+  document.querySelector('#myWallet').innerHTML = "Balance Available: $" + _store.State.wallet.toFixed(2).toString()
   _store.State.items.forEach(Item => template += Item.template)
   document.querySelector("#items").innerHTML = template
 }
@@ -39,21 +39,32 @@ function _drawDeleteItem(totalAndName) {
   </form>`
 }
 function _drawFunds() {
-  document.querySelector('#myWallet').innerHTML = "Balance Available: $" + _store.State.wallet.toString()
+  document.querySelector('#myWallet').innerHTML = "Balance Available: $" + _store.State.wallet.toFixed(2).toString()
 
 }
 export default class ShopController {
   constructor() {
     _drawShop()
   }
-  addToCart(itemInfo) {
-    if (!_shopService.addToCart(itemInfo)) {
+  async addToCart(itemInfo) {
+    if (await !_shopService.addToCart(itemInfo)) {
       swal.fire({
         title: 'Store does not have enough stock.',
         toast: true,
         type: "warning",
         icon: 'warning',
         timer: 5500,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        position: "top-right",
+      })
+    } else {
+      swal.fire({
+        title: 'Added to cart',
+        toast: true,
+        type: "success",
+        icon: 'success',
+        timer: 2500,
         timerProgressBar: true,
         showConfirmButton: false,
         position: "top-right",

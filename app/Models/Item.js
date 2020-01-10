@@ -1,7 +1,7 @@
 export default class Item {
   constructor(data) {
     this.name = data.name
-    this.price = data.price
+    this.price = data.price.toFixed(2)
     this.description = data.description
     this.stock = data.stock
     this.soldOut = false
@@ -11,7 +11,7 @@ export default class Item {
   }
   get template() {
     let template = `
-    <div class="col-4">
+    <div class="col-3">
     <div class="card">
     <img src="${this.img}" class="card-img-top" alt="...">
     <div class="card-body">
@@ -25,7 +25,6 @@ export default class Item {
     </div>
     </div> `
     } else {
-
       template += ` <sm>In Stock: ${this.stock}<sm>
     <button class="btn btn-info" onclick="app.shopController.addToCart({name:'${this.name}', price:${this.price},img: '${this.img}'})"> Add To Cart </button>
     </div>
@@ -37,7 +36,6 @@ export default class Item {
   }
   get CartTemplate() {
     let total = (this.price * this.inCart)
-    // debugger
     return `
 <tbody class="row">
                             <tr>
