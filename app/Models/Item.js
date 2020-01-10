@@ -10,7 +10,7 @@ export default class Item {
     this.id = data.price.toFixed(0)
   }
   get template() {
-    return `
+    let template = `
     <div class="col-4">
     <div class="card">
     <img src="${this.img}" class="card-img-top" alt="...">
@@ -18,12 +18,22 @@ export default class Item {
     <h3>${this.name}</h3>
     <h5>$${this.price}</h5>
     <p>${this.description}<p>
-    <sm>In Stock: ${this.stock}<sm>
-    <button class="btn btn-info" onclick="app.shopController.addToCart({name:'${this.name}', price:${this.price}, img: '${this.img}'})"> Add To Cart </button>
+    `
+    if (this.stock <= 0) {
+      template += `<sm>Out Of Stock</sm>
+       </div>
+    </div>
+    </div> `
+    } else {
+
+      template += ` <sm>In Stock: ${this.stock}<sm>
+    <button class="btn btn-info" onclick="app.shopController.addToCart({name:'${this.name}', price:${this.price},img: '${this.img}'})"> Add To Cart </button>
     </div>
     </div>
     </div> 
     `
+    }
+    return template
   }
   get CartTemplate() {
     let total = (this.price * this.inCart)
@@ -41,11 +51,11 @@ export default class Item {
                                 <td>${this.inCart}</td>
                                 <td>$${total}</td>
                                 
-                                <td>
+                                <td class="d-flex">
                                     <button onclick="app.shopController.toggleDelete({inCart:${this.inCart}, name: '${this.name}', id: '${this.id}'})" class="btn btn-danger btn-sm">
                                         <i class="fa fa-times"></i>
                                     </button>
-                                    <div id="numberForm${this.id}"></div>
+                                    <div id="numberForm${this.id}" class=" pl-2"></div>
                                 </td>
                             </tr>
                         </tbody> 

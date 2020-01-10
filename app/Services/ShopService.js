@@ -6,12 +6,19 @@ class ShopService {
   addToCart(itemInfo) {
     let foundItem = store.State.cart.find(item => item.name == itemInfo.name)
     let foundItemIndex = store.State.cart.findIndex(item => item.name == itemInfo.name)
+    let storeItem = store.State.items.find(item => item.name = itemInfo.name)
     if (foundItem) {
-      foundItem.inCart++
-      store.State.cart[foundItemIndex] = foundItem
+      if (storeItem.stock > foundItem.inCart) {
+        foundItem.inCart++
+        store.State.cart[foundItemIndex] = foundItem
+        return true
+      } else {
+        return false
+      }
     } else {
       itemInfo.inCart = 1
       store.State.cart.push(new Item(itemInfo))
+      return true
     }
   }
   checkout() {
@@ -35,6 +42,9 @@ class ShopService {
     if (foundItem.inCart == 0) {
       store.State.cart.splice(foundItemIndex, 1)
     }
+  }
+  addFunds() {
+    store.State.wallet += 10
   }
 }
 

@@ -8,7 +8,6 @@ function _drawShop() {
   _store.State.items.forEach(Item => template += Item.template)
   document.querySelector("#items").innerHTML = template
 }
-
 function _drawCart() {
   let template = ""
   _store.State.cart.forEach(Item => {
@@ -35,27 +34,48 @@ function _drawInsufficientFunds() {
 function _drawDeleteItem(totalAndName) {
   document.querySelector("#numberForm" + totalAndName.id).innerHTML = `
   <form onsubmit="app.shopController.deleteItem('${totalAndName.name}')">
-      <input type="number" name="quantity" min="1" max="${totalAndName.inCart}">
-      <button type="submit">X</button>
+      <input type="number" name="quantity" min="1" max="${totalAndName.inCart}" >
+      <button class="btn btn-warning" type="submit">X</button>
   </form>`
+}
+function _drawFunds() {
+  document.querySelector('#myWallet').innerHTML = "Balance Available: $" + _store.State.wallet.toString()
+
 }
 export default class ShopController {
   constructor() {
     _drawShop()
-    _store.subscribe("cart", _drawCart);
-    _store.subscribe("wallet", _drawCart);
-    _store.subscribe("items", _drawShop)
-
   }
   addToCart(itemInfo) {
-    _shopService.addToCart(itemInfo)
+    if (!_shopService.addToCart(itemInfo)) {
+      swal.fire({
+        title: 'Store does not have enough stock.',
+        toast: true,
+        type: "warning",
+        icon: 'warning',
+        timer: 5500,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        position: "top-right",
+      })
+    }
   }
   viewCart() {
     _drawCart()
   }
   checkout() {
     if (_shopService.checkout()) {
-      // _drawShop()
+      _drawShop()
+      swal.fire({
+        title: 'Transaction Complete',
+        toast: true,
+        type: "success",
+        icon: 'success',
+        timer: 5500,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        position: "top-right",
+      })
     }
     else {
       _drawInsufficientFunds()
@@ -68,6 +88,11 @@ export default class ShopController {
     event.preventDefault();
     _shopService.deleteItem({ numOfItems: event.target.firstElementChild.value, name: name })
     _drawCart()
+
+  }
+  addFunds() {
+    _shopService.addFunds()
+    _drawFunds()
 
   }
 }
