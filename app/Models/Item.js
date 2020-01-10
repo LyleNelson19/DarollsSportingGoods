@@ -7,7 +7,7 @@ export default class Item {
     this.soldOut = false
     this.inCart = data.inCart
     this.img = data.img
-    this.id = data.price
+    this.id = data.price.toFixed(0)
   }
   get template() {
     return `

@@ -17,7 +17,7 @@ function _drawCart() {
   document.querySelector("#myCart").innerHTML = template
   let total = 0
   _store.State.cart.forEach(item => total += (item.price * item.inCart))
-  document.querySelector("#cartTotal").innerHTML = total.toString()
+  document.querySelector("#cartTotal").innerHTML = total.toFixed(2).toString()
 }
 function _drawInsufficientFunds() {
   swal.fire({
@@ -44,19 +44,18 @@ export default class ShopController {
     _drawShop()
     _store.subscribe("cart", _drawCart);
     _store.subscribe("wallet", _drawCart);
+    _store.subscribe("items", _drawShop)
 
   }
   addToCart(itemInfo) {
     _shopService.addToCart(itemInfo)
-    // _drawCart()
   }
   viewCart() {
-    // _shopService.viewCart()
     _drawCart()
   }
   checkout() {
     if (_shopService.checkout()) {
-      _drawShop()
+      // _drawShop()
     }
     else {
       _drawInsufficientFunds()

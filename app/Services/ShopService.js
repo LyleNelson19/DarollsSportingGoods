@@ -6,10 +6,8 @@ class ShopService {
   addToCart(itemInfo) {
     let foundItem = store.State.cart.find(item => item.name == itemInfo.name)
     let foundItemIndex = store.State.cart.findIndex(item => item.name == itemInfo.name)
-
     if (foundItem) {
       foundItem.inCart++
-      // store.State.items[]
       store.State.cart[foundItemIndex] = foundItem
     } else {
       itemInfo.inCart = 1
@@ -27,13 +25,16 @@ class ShopService {
       return true
     }
     else {
-      console.log("not enough money")
       return false
     }
   }
   deleteItem(payload) {
     let foundItem = store.State.cart.find(item => item.name == payload.name)
+    let foundItemIndex = store.State.cart.findIndex(item => item.name == payload.name)
     foundItem.inCart -= payload.numOfItems
+    if (foundItem.inCart == 0) {
+      store.State.cart.splice(foundItemIndex, 1)
+    }
   }
 }
 
