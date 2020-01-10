@@ -16,14 +16,18 @@ class ShopService {
       store.State.cart.push(new Item(itemInfo))
     }
   }
-  viewCart() {
-    let finalCart = []
-
-    console.log(finalCart)
-    console.log(store.State.cart)
-  }
   checkout() {
-
+    debugger
+    let totalCost = 0
+    let stock = store.State.items
+    store.State.cart.forEach(item => totalCost += (item.inCart * item.price))
+    if (store.State.wallet >= totalCost) {
+      store.State.cart.forEach(item => stock.find(originalItem => originalItem.name == item.name ? originalItem.stock = (originalItem.stock - item.inCart) : ""))
+      store.State.wallet -= totalCost
+    }
+    else {
+      console.log("not enough money")
+    }
   }
 }
 

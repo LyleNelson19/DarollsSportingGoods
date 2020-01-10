@@ -3,6 +3,7 @@ import _store from "../store.js"
 import _shopService from "../Services/ShopService.js"
 function _drawShop() {
   let template = ""
+  document.querySelector('#myWallet').innerHTML = "Balance Available: $" + _store.State.wallet.toString()
   _store.State.items.forEach(Item => template += Item.template)
   document.querySelector("#items").innerHTML = template
 }
@@ -14,7 +15,6 @@ function _drawCart() {
   })
   document.querySelector("#myCart").innerHTML = template
   let total = 0
-  document.querySelector('#myWallet').innerHTML = _store.State.wallet.toString()
   _store.State.cart.forEach(item => total += (item.price * item.inCart))
   document.querySelector("#cartTotal").innerHTML = total.toString()
 }
@@ -31,12 +31,12 @@ export default class ShopController {
     // _drawCart()
   }
   viewCart() {
-    _shopService.viewCart()
+    // _shopService.viewCart()
     _drawCart()
   }
   checkout() {
     _shopService.checkout()
-
+    _drawShop()
   }
 
 }

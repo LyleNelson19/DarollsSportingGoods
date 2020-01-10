@@ -16,7 +16,7 @@ export default class Item {
     
     <div class="card-body">
     <h3>${this.name}</h3>
-    <h5>${this.price}</h5>
+    <h5>$${this.price}</h5>
     <p>${this.description}<p>
     <sm>In Stock: ${this.stock}<sm>
     <button class="btn btn-info" onclick="app.shopController.addToCart({name:'${this.name}', price:${this.price}, img: '${this.img}'})"> Add To Cart </button>
@@ -38,7 +38,7 @@ export default class Item {
                                     class="img-fluid img-thumbnail" alt="Sheep">
                                 </td>
                                 <td>${this.name}</td>
-                                <td>${this.price}</td>
+                                <td>$${this.price}</td>
                                 
                                 <td>${this.inCart}</td>
                                 <td>${total}</td>
