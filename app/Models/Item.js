@@ -7,13 +7,13 @@ export default class Item {
     this.soldOut = false
     this.inCart = data.inCart
     this.img = data.img
+    this.id = data.price
   }
   get template() {
     return `
     <div class="col-4">
     <div class="card">
     <img src="${this.img}" class="card-img-top" alt="...">
-    
     <div class="card-body">
     <h3>${this.name}</h3>
     <h5>$${this.price}</h5>
@@ -29,8 +29,6 @@ export default class Item {
     let total = (this.price * this.inCart)
     // debugger
     return `
-
-
 <tbody class="row">
                             <tr>
                                 <td class="w-25">
@@ -41,20 +39,16 @@ export default class Item {
                                 <td>$${this.price}</td>
                                 
                                 <td>${this.inCart}</td>
-                                <td>${total}</td>
+                                <td>$${total}</td>
                                 
                                 <td>
-                                    <a href="#" class="btn btn-danger btn-sm">
+                                    <button onclick="app.shopController.toggleDelete({inCart:${this.inCart}, name: '${this.name}', id: '${this.id}'})" class="btn btn-danger btn-sm">
                                         <i class="fa fa-times"></i>
-                                    </a>
+                                    </button>
+                                    <div id="numberForm${this.id}"></div>
                                 </td>
                             </tr>
                         </tbody> 
-
-
-
-
     `
-
   }
 }

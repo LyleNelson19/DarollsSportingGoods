@@ -1,6 +1,7 @@
 import Item from "../Models/Item.js"
 import _store from "../store.js"
 import _shopService from "../Services/ShopService.js"
+// const swal = require('sweetalert2')
 function _drawShop() {
   let template = ""
   document.querySelector('#myWallet').innerHTML = "Balance Available: $" + _store.State.wallet.toString()
@@ -18,7 +19,26 @@ function _drawCart() {
   _store.State.cart.forEach(item => total += (item.price * item.inCart))
   document.querySelector("#cartTotal").innerHTML = total.toString()
 }
-
+function _drawInsufficientFunds() {
+  swal.fire({
+    title: 'Insufficient Funds',
+    text: 'Add more money via Paypal or Venmo',
+    toast: true,
+    type: "error",
+    icon: 'error',
+    timer: 5500,
+    timerProgressBar: true,
+    showConfirmButton: false,
+    position: "top-right",
+  })
+}
+function _drawDeleteItem(totalAndName) {
+  document.querySelector("#numberForm" + totalAndName.id).innerHTML = `
+  <form onsubmit="app.shopController.deleteItem('${totalAndName.name}')">
+      <input type="number" name="quantity" min="1" max="${totalAndName.inCart}">
+      <button type="submit">X</button>
+  </form>`
+}
 export default class ShopController {
   constructor() {
     _drawShop()
@@ -35,8 +55,20 @@ export default class ShopController {
     _drawCart()
   }
   checkout() {
-    _shopService.checkout()
-    _drawShop()
+    if (_shopService.checkout()) {
+      _drawShop()
+    }
+    else {
+      _drawInsufficientFunds()
+    }
   }
+  toggleDelete(totalAndName) {
+    _drawDeleteItem(totalAndName)
+  }
+  deleteItem(name) {
+    event.preventDefault();
+    _shopService.deleteItem({ numOfItems: event.target.firstElementChild.value, name: name })
+    _drawCart()
 
+  }
 }
