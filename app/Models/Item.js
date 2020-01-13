@@ -11,22 +11,22 @@ export default class Item {
   }
   get template() {
     let template = `
-    <div class="col-3">
-    <div class="card">
+    <div class="col-3 pt-3 mb-3">
+    <div class="card h-100">
     <img src="${this.img}" class="card-img-top" alt="...">
     <div class="card-body">
     <h3>${this.name}</h3>
     <h5>$${this.price}</h5>
-    <p>${this.description}<p>
+    <p class="pb-3">${this.description}<p>
     `
     if (this.stock <= 0) {
-      template += `<sm>Out Of Stock</sm>
+      template += `<sm class="stockCount mt-1" style="color: red;">Out Of Stock</sm>
        </div>
     </div>
     </div> `
     } else {
-      template += ` <sm>In Stock: ${this.stock}<sm>
-    <button class="btn btn-info" onclick="app.shopController.addToCart({name:'${this.name}', price:${this.price},img: '${this.img}'})"> Add To Cart </button>
+      template += ` <sm class="stockCount mt-1">In Stock: ${this.stock}<sm>
+    <button class="btn btn-info mb-1" onclick="app.shopController.addToCart({name:'${this.name}', price:${this.price},img: '${this.img}'})"> Add To Cart </button>
     </div>
     </div>
     </div> 
